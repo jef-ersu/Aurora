@@ -45,18 +45,30 @@ public class AgendamentoActivity extends AppCompatActivity {
                 return;
             }
 
-            Map<String, Object> consulta = new HashMap<>();
-            consulta.put("Especialidade", especialidade);
-            consulta.put("Data", date);
-            consulta.put("Hora", time);
-            consulta.put("PacienteId", userId);
+            db.collection("Hospitais").document("Consultas")
+                    .collection(date)
+                    .whereEqualTo("Hora", time)
+                    .get()
+                    .addOnSuccessListener(queryDocumentSnapshots -> {
+                        if (!queryDocumentSnapshots.isEmpty()) {
+                            Toast.makeText(this, "Horário já reservado!", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Map<String, Object> consulta = new HashMap<>();
+                            consulta.put("Especialidade", especialidade);
+                            consulta.put("Data", date);
+                            consulta.put("Hora", time);
+                            consulta.put("PacienteId", userId);
 
-            db.collection("Hospitais").document("Consultas").collection(date)
-                    .add(consulta)
-                    .addOnSuccessListener(documentReference ->
-                            Toast.makeText(this, "Consulta agendada com sucesso!", Toast.LENGTH_SHORT).show())
+                            db.collection("Hospitais").document("Consultas").collection(date)
+                                    .add(consulta)
+                                    .addOnSuccessListener(documentReference ->
+                                            Toast.makeText(this, "Consulta agendada com sucesso!", Toast.LENGTH_SHORT).show())
+                                    .addOnFailureListener(e ->
+                                            Toast.makeText(this, "Erro ao agendar: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+                        }
+                    })
                     .addOnFailureListener(e ->
-                            Toast.makeText(this, "Erro ao agendar: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+                            Toast.makeText(this, "Erro ao verificar disponibilidade: " + e.getMessage(), Toast.LENGTH_SHORT).show());
         });
     }
 }
