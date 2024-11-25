@@ -15,13 +15,13 @@
         android:id="@+id/dateInput"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Data (ex: 2024-11-25)" />
+        android:hint="Data (dd/mm/aaaa)" />
 
     <EditText
         android:id="@+id/timeInput"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Hora (ex: 14:00)" />
+        android:hint="Hora (00:00)" />
 
     <Button
         android:id="@+id/bookButton"
