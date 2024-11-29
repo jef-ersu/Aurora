@@ -24,4 +24,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Neurologia" />
+
+<!--    botao minhas consultas-->
+    <Button
+        android:id="@+id/minhasConsultasButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Minhas Consultas" />
+
 </LinearLayout>
