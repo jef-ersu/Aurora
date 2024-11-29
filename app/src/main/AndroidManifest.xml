@@ -16,5 +16,6 @@
         <activity android:name=".RegisterActivity" />
         <activity android:name=".MainActivity" />
         <activity android:name=".AgendamentoActivity" />
+        <activity android:name=".ConsultasActivity"/>
     </application>
 </manifest>
