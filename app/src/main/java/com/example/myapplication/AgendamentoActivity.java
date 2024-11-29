@@ -38,6 +38,8 @@ public class AgendamentoActivity extends AppCompatActivity {
         EditText dateInput = findViewById(R.id.dateInput);
         EditText timeInput = findViewById(R.id.timeInput);
         Button bookButton = findViewById(R.id.bookButton);
+        EditText nameInput = findViewById(R.id.nameInput);
+        EditText symptomsInput = findViewById(R.id.symptomsInput);
 
         String especialidade = getIntent().getStringExtra("especialidade");
         especialidadeText.setText("Especialidade: " + especialidade);
@@ -46,8 +48,12 @@ public class AgendamentoActivity extends AppCompatActivity {
             String date = dateInput.getText().toString().trim(); // Formato esperado: dd/MM/yyyy
             String time = timeInput.getText().toString().trim();
             String userId = mAuth.getCurrentUser().getUid();
+            String name = nameInput.getText().toString().trim(); // Recupera o nome
+            String symptoms = symptomsInput.getText().toString().trim(); // Recupera os sintomas
 
-            if (date.isEmpty() || time.isEmpty()) {
+
+
+            if (date.isEmpty() || time.isEmpty() || name.isEmpty()) {
                 Toast.makeText(this, "Preencha todos os campos!", Toast.LENGTH_SHORT).show();
                 return;
             }
@@ -79,7 +85,13 @@ public class AgendamentoActivity extends AppCompatActivity {
                             consulta.put("Especialidade", especialidade);
                             consulta.put("Data", date); // Data completa como campo único
                             consulta.put("Hora", time);
+                            consulta.put("Nome", name);
                             consulta.put("PacienteId", userId);
+
+
+                            if (!symptoms.isEmpty()) {
+                                consulta.put("Sintomas", symptoms); // Adiciona os sintomas se informados
+                            }
 
                             db.collection("Hospitais").document("Consultas")
                                     .collection("Agendamentos")
