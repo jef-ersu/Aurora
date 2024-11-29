@@ -23,6 +23,22 @@
         android:layout_height="wrap_content"
         android:hint="Hora (00:00)" />
 
+    <!-- Novo campo para Nome -->
+    <EditText
+        android:id="@+id/nameInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Nome"
+        android:inputType="textPersonName" />
+
+    <!-- Novo campo para Sintomas -->
+    <EditText
+        android:id="@+id/symptomsInput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Sintomas (opcional)"
+        android:inputType="textMultiLine" />
+
     <Button
         android:id="@+id/bookButton"
         android:layout_width="match_parent"
