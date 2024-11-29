@@ -6,6 +6,8 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -15,9 +17,15 @@ public class MainActivity extends AppCompatActivity {
 
         Button cardioButton = findViewById(R.id.cardioButton);
         Button neuroButton = findViewById(R.id.neuroButton);
+        Button minhasConsultasButton = findViewById(R.id.minhasConsultasButton);
 
         cardioButton.setOnClickListener(v -> openAgendamento("Cardiologia"));
         neuroButton.setOnClickListener(v -> openAgendamento("Neurologia"));
+        minhasConsultasButton.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, ConsultasActivity.class);
+            startActivity(intent);
+        });
+
     }
 
     private void openAgendamento(String especialidade) {
