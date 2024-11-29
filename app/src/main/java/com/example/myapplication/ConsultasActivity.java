@@ -43,7 +43,8 @@ public class ConsultasActivity extends AppCompatActivity {
                             String especialidade = document.getString("Especialidade");
                             String data = document.getString("Data");
                             String hora = document.getString("Hora");
-                            consultasList.add(especialidade + " - " + data + " às " + hora);
+                            String nome = document.getString("Nome");
+                            consultasList.add("Paciente: " + nome + "\n" +especialidade + " - " + data + " às " + hora);
                         });
 
                         // Exibir na ListView
