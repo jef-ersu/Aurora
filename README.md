@@ -1,3 +1,7 @@
 App criado para marcar consultas, (em desenvolvimento!).
 Nome do projeto apenas temporário, ainda a definir! (Caso o grupo não goste do mesmo).
-Funções a adicionar = ...
+
+
+
+News = Funções editar e remover funcionando até então, só preciso resolver
+a especialidade = null.
