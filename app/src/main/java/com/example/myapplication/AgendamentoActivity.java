@@ -44,14 +44,30 @@ public class AgendamentoActivity extends AppCompatActivity {
         String especialidade = getIntent().getStringExtra("especialidade");
         especialidadeText.setText("Especialidade: " + especialidade);
 
+        // Verificar se há um ID de consulta para edição
+        String consultaId = getIntent().getStringExtra("consultaId");
+        if (consultaId != null) {
+            // Recuperar dados da consulta do Firebase
+            db.collection("Hospitais").document("Consultas")
+                    .collection("Agendamentos").document(consultaId)
+                    .get()
+                    .addOnSuccessListener(documentSnapshot -> {
+                        if (documentSnapshot.exists()) {
+                            dateInput.setText(documentSnapshot.getString("Data"));
+                            timeInput.setText(documentSnapshot.getString("Hora"));
+                            nameInput.setText(documentSnapshot.getString("Nome"));
+                            symptomsInput.setText(documentSnapshot.getString("Sintomas"));
+                        }
+                    });
+        }
+
+        // Atualizar ou criar nova consulta ao clicar no botão
         bookButton.setOnClickListener(v -> {
-            String date = dateInput.getText().toString().trim(); // Formato esperado: dd/MM/yyyy
+            String date = dateInput.getText().toString().trim();
             String time = timeInput.getText().toString().trim();
+            String name = nameInput.getText().toString().trim();
+            String symptoms = symptomsInput.getText().toString().trim();
             String userId = mAuth.getCurrentUser().getUid();
-            String name = nameInput.getText().toString().trim(); // Recupera o nome
-            String symptoms = symptomsInput.getText().toString().trim(); // Recupera os sintomas
-
-
 
             if (date.isEmpty() || time.isEmpty() || name.isEmpty()) {
                 Toast.makeText(this, "Preencha todos os campos!", Toast.LENGTH_SHORT).show();
@@ -71,40 +87,34 @@ public class AgendamentoActivity extends AppCompatActivity {
                 return;
             }
 
-            // Verificar conflito de horário
-            db.collection("Hospitais").document("Consultas").collection("Agendamentos")
-                    .whereEqualTo("Data", date)
-                    .whereEqualTo("Hora", time)
-                    .get()
-                    .addOnSuccessListener(queryDocumentSnapshots -> {
-                        if (!queryDocumentSnapshots.isEmpty()) {
-                            Toast.makeText(this, "Horário já reservado!", Toast.LENGTH_SHORT).show();
-                        } else {
-                            // Salvar a consulta com a data completa
-                            Map<String, Object> consulta = new HashMap<>();
-                            consulta.put("Especialidade", especialidade);
-                            consulta.put("Data", date); // Data completa como campo único
-                            consulta.put("Hora", time);
-                            consulta.put("Nome", name);
-                            consulta.put("PacienteId", userId);
+            // Criar ou atualizar consulta
+            Map<String, Object> consulta = new HashMap<>();
+            consulta.put("Especialidade", especialidadeText.getText().toString());
+            consulta.put("Data", date);
+            consulta.put("Hora", time);
+            consulta.put("Nome", name);
+            consulta.put("PacienteId", userId);
 
+            if (!symptoms.isEmpty()) {
+                consulta.put("Sintomas", symptoms);
+            }
 
-                            if (!symptoms.isEmpty()) {
-                                consulta.put("Sintomas", symptoms); // Adiciona os sintomas se informados
-                            }
-
-                            db.collection("Hospitais").document("Consultas")
-                                    .collection("Agendamentos")
-                                    .add(consulta)
-                                    .addOnSuccessListener(documentReference ->
-                                            Toast.makeText(this, "Consulta agendada com sucesso!", Toast.LENGTH_SHORT).show())
-                                    .addOnFailureListener(e ->
-                                            Toast.makeText(this, "Erro ao agendar: " + e.getMessage(), Toast.LENGTH_SHORT).show());
-                        }
-                    })
-                    .addOnFailureListener(e ->
-                            Toast.makeText(this, "Erro ao verificar disponibilidade: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+            if (consultaId != null) {
+                // Atualizar consulta existente
+                db.collection("Hospitais").document("Consultas")
+                        .collection("Agendamentos").document(consultaId)
+                        .set(consulta)
+                        .addOnSuccessListener(aVoid -> Toast.makeText(this, "Consulta atualizada com sucesso!", Toast.LENGTH_SHORT).show())
+                        .addOnFailureListener(e -> Toast.makeText(this, "Erro ao atualizar: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+            } else {
+                // Criar nova consulta
+                db.collection("Hospitais").document("Consultas")
+                        .collection("Agendamentos")
+                        .add(consulta)
+                        .addOnSuccessListener(documentReference -> Toast.makeText(this, "Consulta agendada com sucesso!", Toast.LENGTH_SHORT).show())
+                        .addOnFailureListener(e -> Toast.makeText(this, "Erro ao agendar: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+            }
         });
-
     }
+
 }
