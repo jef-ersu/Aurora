@@ -81,10 +81,21 @@ public class ConsultasActivity extends AppCompatActivity {
     }
 
     private void editarConsulta(String consultaId) {
-        Intent intent = new Intent(this, AgendamentoActivity.class);
-        intent.putExtra("consultaId", consultaId); // Passar o ID da consulta
-        startActivity(intent);
+        db.collection("Hospitais").document("Consultas")
+                .collection("Agendamentos").document(consultaId)
+                .delete()
+                .addOnSuccessListener(aVoid -> {
+                    Toast.makeText(this, "Escolha a especialidade novamente!", Toast.LENGTH_SHORT).show();
+
+                    // redireciona para a tela de criação
+                    Intent intent = new Intent(this, MainActivity.class);
+                    startActivity(intent);
+                })
+                .addOnFailureListener(e ->
+                        Toast.makeText(this, "Erro ao remover consulta: " + e.getMessage(), Toast.LENGTH_SHORT).show()
+                );
     }
+
 
     private void excluirConsulta(String consultaId) {
         db.collection("Hospitais").document("Consultas")
