@@ -89,7 +89,7 @@ public class AgendamentoActivity extends AppCompatActivity {
 
             // Criar ou atualizar consulta
             Map<String, Object> consulta = new HashMap<>();
-            consulta.put("Especialidade", especialidadeText.getText().toString());
+            consulta.put("Especialidade", especialidade);
             consulta.put("Data", date);
             consulta.put("Hora", time);
             consulta.put("Nome", name);
