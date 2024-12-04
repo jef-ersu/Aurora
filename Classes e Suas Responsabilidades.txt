@@ -1,0 +1,37 @@
+» LoginActivity
+Responsável por: Login de usuários.
+Principais métodos:
+- loginUser(): Valida campos e autentica usuários com Firebase Authentication.
+
+
+» RegisterActivity
+
+Responsável por: Registro de novos usuários.
+Principais métodos:
+- registerUser(): Valida campos e cria novos usuários no Firebase Authentication.
+
+
+» MainActivity
+
+Responsável por: Tela principal com navegação para funcionalidades.
+Principais métodos:
+- openAgendamento(String especialidade): Abre a tela de agendamento com a especialidade selecionada.
+
+
+
+» AgendamentoActivity
+
+Responsável por: Gerenciar o agendamento e edição de consultas.
+Principais métodos:
+- onCreate(): Configurações iniciais e gerenciamento do botão de salvar.
+- Validação de campos e envio de dados ao Firestore.
+
+
+
+» ConsultasActivity
+
+Responsável por: Listar consultas agendadas e permitir edição ou exclusão.
+Principais métodos:
+- onCreate(): Recupera consultas do Firestore.
+- editarConsulta(String consultaId): Redireciona para a edição da consulta.
+- excluirConsulta(String consultaId): Remove consulta do banco de dados.
