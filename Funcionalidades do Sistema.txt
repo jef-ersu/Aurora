@@ -1,0 +1,53 @@
+Funcionalidades do Sistema
+
+1. Autenticação de Usuários
+Descrição: Permite que os usuários façam login, criem contas e autentiquem suas sessões.
+Classes Envolvidas:
+
+- LoginActivity: Gerencia o login de usuários.
+Funcionalidade: Login com validação de campos e autenticação via Firebase Authentication.
+
+- RegisterActivity: Gerencia o registro de novos usuários.
+Funcionalidade: Registro de usuários com validação de e-mail e senha.
+
+
+2. Agendamento de Consultas 
+Descrição: Permite aos pacientes marcar consultas, selecionando especialidades, data e hora.
+Classes Envolvidas:
+
+- MainActivity: Gerencia o acesso às funcionalidades principais.
+Funcionalidade: Acesso às telas de agendamento e consultas agendadas.
+
+- AgendamentoActivity: Gerencia a criação e edição de consultas.
+Funcionalidades: 
+- Selecionar especialidade médica.
+- Inserir data, hora e informações adicionais (nome, sintomas).
+- Verificar disponibilidade do horário.
+- Salvar consulta no Firebase Firestore.
+
+
+3. Listagem de Consultas Agendadas
+Descrição: Permite aos pacientes visualizar as consultas que já marcaram.
+Classes Envolvidas:
+
+- ConsultasActivity: Gerencia a exibição das consultas do paciente.
+Funcionalidades:
+- Recuperar consultas do Firebase Firestore com base no ID do usuário logado.
+- Exibir consultas em uma lista.
+- Acessar detalhes ou opções para editar/remover consultas.
+
+
+4. Edição e Exclusão de Consultas
+Descrição: Permite ao paciente modificar ou cancelar consultas já agendadas.
+Classes Envolvidas:
+
+- ConsultasActivity: Gerencia a exibição das consultas do paciente.
+Funcionalidades:
+- Permitir edição ao redirecionar para AgendamentoActivity com os dados da consulta.
+- Exclusão de consultas diretamente do Firestore.
+
+- AgendamentoActivity: Gerencia a criação e edição de consultas.
+Funcionalidade:
+- Atualizar as informações da consulta existente no banco de dados.
+
+
